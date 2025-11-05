@@ -5,6 +5,7 @@ This file contains comprehensive cURL commands to test all the Todo API endpoint
 ## Prerequisites
 
 Make sure the server is running:
+
 ```bash
 npm run dev
 # or
@@ -24,6 +25,7 @@ curl -X GET http://localhost:3000/api/v1/health
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -44,6 +46,7 @@ curl -X GET http://localhost:3000/api/v1/todo
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -85,6 +88,7 @@ curl -X GET http://localhost:3000/api/v1/todo/1
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -105,6 +109,7 @@ curl -X GET http://localhost:3000/api/v1/todo/999
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -120,6 +125,7 @@ curl -X GET http://localhost:3000/api/v1/todo/abc
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -144,6 +150,7 @@ curl -X POST http://localhost:3000/api/v1/todo \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -168,6 +175,7 @@ curl -X POST http://localhost:3000/api/v1/todo \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -188,6 +196,7 @@ curl -X POST http://localhost:3000/api/v1/todo \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -208,6 +217,7 @@ curl -X POST http://localhost:3000/api/v1/todo \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -228,6 +238,7 @@ curl -X POST http://localhost:3000/api/v1/todo \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -252,6 +263,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/1 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -276,6 +288,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/2 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -300,6 +313,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/3 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -324,6 +338,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/999 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -341,6 +356,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/1 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -359,6 +375,7 @@ curl -X PUT http://localhost:3000/api/v1/todo/1 \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -377,6 +394,7 @@ curl -X DELETE http://localhost:3000/api/v1/todo/1
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -394,6 +412,7 @@ curl -X DELETE http://localhost:3000/api/v1/todo/999
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -409,6 +428,7 @@ curl -X DELETE http://localhost:3000/api/v1/todo/abc
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -427,6 +447,7 @@ curl -X GET http://localhost:3000/
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -456,6 +477,7 @@ curl -X GET http://localhost:3000/api/v1/invalid
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": false,
@@ -520,8 +542,21 @@ curl -X GET http://localhost:3000/api/v1/todo/4
 - Data is stored in memory, so restarting the server will reset to initial state
 - All responses include proper HTTP status codes (200, 201, 400, 404, 500)
 
-
-
-EDIT 
-เปลี่ยนจาก "module": "commonjs" มาเป็น "NodeNext"
+EDIT
+-เปลี่ยน module: commonjs -> NodeNext
 เพื่อรองรับ Node.js รุ่นใหม่ (16+) ที่ใช้ ES Module และป้องกันปัญหา deprecated ใน TypeScript 7.0
+
+-assignment ไม่ได้ขอ health route หรือ logging decorator
+จึงตัดออกให้ตรงตามโจทย์
+
+-เพิ่ม return หลัง res.handleSuccess,res.handleError,res.handleCreated
+เพื่อหยุดการทำงานของฟังก์ชันหลังส่ง response ป้องกัน error ซ้ำ 
+
+-เพิ่มการตรวจสอบ params.id และ req.body ให้แน่ใจก่อนใช้
+ป้องกันกรณีส่ง request ที่ไม่มีข้อมูลหรือเป็น type ไม่ถูกต้อง
+
+-ปรับให้ updateTodo เช็กค่า undefined ก่อน merge
+เพื่อไม่ให้ค่าที่ไม่ได้ส่งมาทับข้อมูลเดิมเป็น undefined
+
+-เพิ่ม global error handler ไว้ท้ายสุดของ index.ts
+เพื่อให้ระบบไม่ crash ถ้ามี error ที่ไม่ได้ถูกจับ

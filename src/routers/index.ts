@@ -7,13 +7,13 @@ const apiRouter = Router();
 apiRouter.use('/todo', todoRouter);
 
 // Health check endpoint
-apiRouter.get('/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'API is running',
-    timestamp: new Date().toISOString(),
-    version: '1.0.0'
-  });
-});
+// apiRouter.get('/health', (req, res) => {
+//   res.json({
+//     success: true,
+//     message: 'API is running',
+//     timestamp: new Date().toISOString(),
+//     version: '1.0.0'
+//   });
+// });
 
 export default apiRouter;
